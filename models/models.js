@@ -51,6 +51,9 @@ const Task = sequelize.define('task', {
         defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         allowNull: false
     },
+    remind_in: {
+        type: DataTypes.DATE
+    },
     deadline: {
         type: DataTypes.DATE,
         allowNull: false
@@ -138,6 +141,15 @@ const Tag = sequelize.define('tag', {
 
 User.hasMany(Task);
 Task.belongsTo(User);
+
+User.hasMany(Category);
+Category.belongsTo(User);
+
+User.hasMany(Group);
+Group.belongsTo(User);
+
+User.hasMany(Tag);
+Tag.belongsTo(User);
 
 Category.hasMany(Task);
 Task.belongsTo(Category);
