@@ -6,11 +6,11 @@ class GroupController {
             req.body.id = req.user.id;
             const {title} = req.body;
 
-            const tag = await Group.create({title, userId: req.body.id});
-            if (!tag) {
+            const group = await Group.create({title, userId: req.body.id});
+            if (!group) {
                 throw new Error();
             } else {
-                res.status(200).json({message: 'Группа создана'});
+                res.status(200).json(group);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
@@ -20,11 +20,11 @@ class GroupController {
     async getAll(req, res) {
         try {
             const userId = req.user.id;
-            const tags = await Group.findAll({where: {userId} });
-            if (!tags) {
+            const groups = await Group.findAll({where: {userId} });
+            if (!groups) {
                 throw new Error();
             } else {
-                res.json(tags);
+                res.json(groups);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
@@ -33,15 +33,15 @@ class GroupController {
 
     async update(req, res) {
         try {
-            const tagId = req.params.id;
+            const groupId = req.params.id;
             const {title} = req.body;
-            const tags = await Group.update(
+            const group = await Group.update(
                 {title: title},
-                {where: {id: tagId} });
+                {where: {id: groupId} });
             if (!tags) {
                 throw new Error();
             } else {
-                res.status(200).json({message: 'Название группы обновлено'});
+                res.status(200).json(group);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
@@ -50,9 +50,9 @@ class GroupController {
 
     async delete(req, res) {
         try {
-            const tagId = req.params.id;
-            const tag = await Group.destroy({where: {id: tagId}});
-            if (!tag) {
+            const groupId = req.params.id;
+            const group = await Group.destroy({where: {id: groupId}});
+            if (!group) {
                 throw new Error();
             } else {
                 res.status(200).json({message: 'Группа удалена'});

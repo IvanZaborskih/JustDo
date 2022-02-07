@@ -10,7 +10,7 @@ class CategoryController {
             if (!category) {
                 throw new Error();
             } else {
-                res.status(200).json({message: 'Категория создана'});
+                res.status(200).json(category);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
@@ -41,7 +41,7 @@ class CategoryController {
             if (!categories) {
                 throw new Error();
             } else {
-                res.status(200).json({message: 'Название категории обновлено'});
+                res.status(200).json(categories);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
