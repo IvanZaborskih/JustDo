@@ -10,7 +10,7 @@ class TagController {
             if (!tag) {
                 throw new Error();
             } else {
-                res.status(200).json({message: 'Тег создан'});
+                res.status(200).json(tag);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
@@ -35,13 +35,13 @@ class TagController {
         try {
             const tagId = req.params.id;
             const {title} = req.body;
-            const tags = await Tag.update(
+            const tag = await Tag.update(
                 {title: title},
                 {where: {id: tagId} });
-            if (!tags) {
+            if (!tag) {
                 throw new Error();
             } else {
-                res.status(200).json({message: 'Тег обновлен'});
+                res.status(200).json(tag);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
