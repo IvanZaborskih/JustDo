@@ -38,7 +38,7 @@ class GroupController {
             const group = await Group.update(
                 {title: title},
                 {where: {id: groupId} });
-            if (!tags) {
+            if (!group) {
                 throw new Error();
             } else {
                 res.status(200).json(group);
