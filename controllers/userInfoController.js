@@ -1,5 +1,6 @@
 const {User} = require('../models/models');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 class UserInfoController {
     async getOne(req, res) {
@@ -43,7 +44,62 @@ class UserInfoController {
     }
 
     async changePhoto(req, res) {
+        try {
+            const avatarPath = req.file.path;
+            const userId = req.user.id;
 
+            User.findByPk(userId)
+                .then(user => {
+                    if (user.photo) {
+                        fs.unlinkSync(user.photo);
+                    }
+                })
+                .catch(err => {
+                    res.status(500).json({message: err.message});
+                });
+
+            const user = await User.update(
+                {photo: avatarPath},
+                {where: {id: userId}}
+            )
+
+            if (!user) {
+                throw new Error();
+            } else {
+                const result = await User.findByPk(userId)
+                res.status(200).json(result);
+            }
+        } catch (err) {
+            res.status(500).json({message: err.message});
+        }
+    }
+
+    async deletePhoto(req, res) {
+        try {
+            const userId = req.user.id;
+
+            User.findByPk(userId)
+                .then(user => {
+                    fs.unlinkSync(user.photo);
+                })
+                .catch(err => {
+                    res.status(500).json({message: err.message});
+                })
+
+            const user = await User.update(
+                {photo: null},
+                {where: {id: userId}}
+            )
+
+            if (!user) {
+                throw new Error();
+            } else {
+                const result = await User.findByPk(userId)
+                res.status(200).json(result);
+            }
+        } catch (err) {
+            res.status(500).json({message: err.message});
+        }
     }
 
     async changePassword(req, res) {
