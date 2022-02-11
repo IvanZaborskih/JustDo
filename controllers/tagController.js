@@ -41,7 +41,8 @@ class TagController {
             if (!tag) {
                 throw new Error();
             } else {
-                res.status(200).json(tag);
+                const result = await Tag.findOne({where: {id: tagId} })
+                res.status(200).json(result);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
