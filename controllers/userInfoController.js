@@ -78,7 +78,7 @@ class UserInfoController {
         try {
             const userId = req.user.id;
 
-            User.findByPk(userId)
+            await User.findByPk(userId)
                 .then(user => {
                     fs.unlinkSync(user.photo);
                 })
