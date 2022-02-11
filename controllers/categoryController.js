@@ -1,4 +1,4 @@
-const {Category} = require('../models/models');
+const {Category, Tag} = require('../models/models');
 
 class CategoryController {
     async create(req, res) {
@@ -41,7 +41,8 @@ class CategoryController {
             if (!categories) {
                 throw new Error();
             } else {
-                res.status(200).json(categories);
+                const result = await Category.findOne({where: {id: categoryId} });
+                res.status(200).json(result);
             }
         } catch (err) {
             res.status(500).json({message: err.message});

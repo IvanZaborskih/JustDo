@@ -1,4 +1,4 @@
-const {Group} = require('../models/models');
+const {Group, Category} = require('../models/models');
 
 class GroupController {
     async create(req, res) {
@@ -41,7 +41,8 @@ class GroupController {
             if (!group) {
                 throw new Error();
             } else {
-                res.status(200).json(group);
+                const result = await Group.findOne({where: {id: groupId} });
+                res.status(200).json(result);
             }
         } catch (err) {
             res.status(500).json({message: err.message});
